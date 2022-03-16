@@ -7,7 +7,7 @@ download node
 untar it
 
 ```
-$ tar xvfz node-v16.14.1-linux-x64.tar.gz
+$ tar xvf node-v16.14.1-linux-x64.tar.gz
 $ mkdir -p /usr/local/nodejs
 $ mv node-v16.14.1-linux-x64/* /usr/local/nodejs
 ```
