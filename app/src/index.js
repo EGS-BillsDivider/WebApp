@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Mysidebar from './layouts/Mysidebar/Mysidebar';
+import Postit from './components/Postit/Postit';
+
+import postit1 from './assets/postit1.png'
 
 import './index.css';
 
@@ -9,8 +12,11 @@ function App() {
     <div>
       <Mysidebar></Mysidebar>
       <h2 class="testclass">teste</h2>
-      <span onClick={openNav}>Open</span>
+      <Postit src={postit1}></Postit>
+      console.log(postit1)
+
       <br></br>
+      <span onClick={openNav}>Open</span>
       <span onClick={closeNav}>Close</span> 
     </div>
   );

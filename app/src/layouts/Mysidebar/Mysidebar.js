@@ -12,10 +12,10 @@ class Mysidebar extends React.Component {
   }
 }
 
+export default Mysidebar;
+
 /* Set the width of the side navigation to 0 */
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.body.style.backgroundColor = "white";
 }
-
-export default Mysidebar;
