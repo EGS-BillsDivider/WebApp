@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from "react";
 import ReactDOM from 'react-dom';
 import Mysidebar from './layouts/Mysidebar/Mysidebar';
 import Postit from './components/Postit/Postit';
 import { Routes, Route, Link } from "react-router-dom";
 import { Navbar, Container } from 'react-bootstrap';
 import Login from './layouts/Login/SignIn';
+import MyModal from './layouts/MyModal/MyModal'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -27,6 +28,12 @@ export default App;
 
 
 function Main() {
+    
+    const [show, setShow] = useState(false);
+      
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
       <>
         <Mysidebar></Mysidebar>
@@ -40,6 +47,11 @@ function Main() {
 
         <span onClick={openNav}>Open</span>
         <span onClick={closeNav}>Close</span>
+        
+        
+        <button onClick={handleShow}>Open Modal</button>
+        <MyModal></MyModal>
+        
         </>
     );
   }
