@@ -5,7 +5,8 @@ import Postit from './components/Postit/Postit';
 import { Routes, Route, Link } from "react-router-dom";
 import { Navbar, Container } from 'react-bootstrap';
 import Login from './layouts/Login/SignIn';
-import MyModal from './layouts/MyModal/MyModal'
+import { Modal , Button, Card, Form} from 'react-bootstrap';
+import NumericInput from 'react-numeric-input';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -42,15 +43,68 @@ function Main() {
             <Navbar.Brand href="#">Maison Aveiro</Navbar.Brand>
             </Container>
         </Navbar>
-        <Postit src={postit1}></Postit>
-        {console.log(postit1)}
+        <div class="container">
+          <Card style={{ width: '18rem' }}>
+            <Card.Body>
+              <Card.Title>titulo da conta</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">descrição</Card.Subtitle>
+              <Card.Text>
+                Tiago 7,68 euros
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </div>
+        
+        <div class="container">
+          <div class="d-flex justify-content-end">
+            <Button variant="primary" onClick={handleShow}>
+              Add Bill
+            </Button>
+          </div>
+        </div>
+    
+        <Modal show={show} onHide={handleClose} centered size="lg">
+          <Modal.Header closeButton>
+              <Modal.Title >Adicionar nova conta</Modal.Title>
+          </Modal.Header>
+          <Form>
+            <Modal.Body>
+              <Form.Group className="mb-3">
+                <Form.Label>Título</Form.Label>
+                <Form.Control type="text" placeholder="ex: Luz Nov. Tiago" />
+              </Form.Group>
 
-        <span onClick={openNav}>Open</span>
-        <span onClick={closeNav}>Close</span>
-        
-        
-        <button onClick={handleShow}>Open Modal</button>
-        <MyModal></MyModal>
+              <Form.Group className="mb-3">
+                <Form.Label>Descrição</Form.Label>
+                <Form.Control as="textarea" rows={3} />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Total</Form.Label>
+                  <NumericInput step={0.01} placeholder="ex: 32.56"/>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <div class="d-flex row">
+                  <div class="col">
+                    <Form.Label>Fatura</Form.Label>
+                    <Form.Control type="file" size="sm"/>
+                  </div>
+                  <div class="col">
+                    <Form.Label>Recibo</Form.Label>
+                    <Form.Control type="file" size="sm"/>
+                  </div>
+                </div>
+              </Form.Group>
+
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="primary" onClick={handleClose} type="submit">
+                  Adicionar
+                </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
         
         </>
     );
