@@ -90,11 +90,11 @@ function Main() {
         </div>
       </div>
   
-      <Modal show={show} onHide={handleClose} centered size="lg" onSubmit={handleSubmit}>
+    <Modal show={show} onHide={handleClose} centered size="lg">
         <Modal.Header closeButton>
             <Modal.Title >Adicionar nova conta</Modal.Title>
         </Modal.Header>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Modal.Body>
             <Form.Group className="mb-3">
               <Form.Label>Título</Form.Label>
@@ -131,9 +131,9 @@ function Main() {
               </Button>
           </Modal.Footer>
         </Form>
-      </Modal>
+    </Modal>
       
-      </>
+    </>
     );
   }
 
