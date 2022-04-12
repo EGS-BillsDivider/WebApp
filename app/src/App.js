@@ -7,19 +7,20 @@ import { Navbar, Container } from 'react-bootstrap';
 import Login from './layouts/Login/SignIn';
 import { Modal , Button, Card, Form} from 'react-bootstrap';
 import NumericInput from 'react-numeric-input';
+import ProtectedRoutes from "./ProtectedRoutes";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import postit1 from './assets/postit1.png'
-
-import './App.css';
 
 function App() {
   return (
     <>
         <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/main" element={<Main />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/home" element={<Main />} />
+            </Route>
         </Routes>
     </>
   );
@@ -105,7 +106,6 @@ function Main() {
             </Modal.Footer>
           </Form>
         </Modal>
-        
         </>
     );
   }
