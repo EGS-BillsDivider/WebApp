@@ -35,8 +35,8 @@ export function MyModal(props) {
 
     return (
         <>
-          <Modal show={props.showModal} onClick={handleModalClose} centered size="lg">
-            <Modal.Header closeButton>
+          <Modal show={props.showModal}  centered size="lg">
+            <Modal.Header closeButton onClick={handleModalClose}>
               <Modal.Title>Adicionar nova conta</Modal.Title>
             </Modal.Header>
             <Form onSubmit={handleSubmit}>
