@@ -1,0 +1,22 @@
+# sudo docker-compose -f deploy/docker-compose.yml  up
+
+
+version: "3"
+services:
+    app:
+        image: flask-app        # image_name
+        container_name: app-backend
+        build:
+            context: ..
+            dockerfile: deploy/Dockerfile.app
+        volumes:
+            - ./app/www:/app/www
+        
+    nginx:
+        image: nginx-proxy      # image_name    
+        container_name: app-frontend
+        build:
+            context: ..
+            dockerfile: deploy/Dockerfile.nginx
+        ports:
+            - 80:80
