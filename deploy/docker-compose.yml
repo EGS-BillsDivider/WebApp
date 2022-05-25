@@ -10,7 +10,7 @@ services:
             context: ..
             dockerfile: deploy/Dockerfile.app
         volumes:
-            - ./app/www:/app/www
+            - ../app/www:/app/www
         
     nginx:
         image: nginx-proxy      # image_name    
