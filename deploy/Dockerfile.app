@@ -17,7 +17,7 @@ COPY app/backend/requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
-EXPOSE 8080/tcp
+EXPOSE 8000/tcp
 
 COPY app/backend/src/main.py main.py
 
