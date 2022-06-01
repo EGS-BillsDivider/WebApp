@@ -13,10 +13,10 @@ services:
             - ../app/www:/app/www
         
     nginx:
-        image: nginx-proxy      # image_name    
+        image: nginx 
         container_name: app-frontend
-        build:
-            context: ..
-            dockerfile: deploy/Dockerfile.nginx
         ports:
             - 80:80
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ../app/www:/var/www
