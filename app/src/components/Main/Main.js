@@ -9,7 +9,7 @@ export function Main() {
     const [data, setData] = useState([]);
 
     const getData = () => {
-        fetch('http://127.0.0.1:5000/bills', {
+        fetch('/api/bills', {
             method: 'GET',
             headers:  {'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin': '*'},

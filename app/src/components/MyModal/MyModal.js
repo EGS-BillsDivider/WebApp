@@ -15,7 +15,7 @@ export function MyModal(props) {
     const handleSubmit = (event) => {
       event.preventDefault();
   
-      fetch('/bill', {
+      fetch('/api/bill', {
         method: 'POST',
         headers:  {'Content-Type': 'application/json'},
         body: JSON.stringify(inputs)

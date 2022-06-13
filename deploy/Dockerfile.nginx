@@ -1,7 +1,0 @@
-FROM nginx
-
-MAINTAINER Pedro Abreu
-
-LABEL version="1.0"
-
-COPY deploy/nginx.conf /etc/nginx/nginx.conf

@@ -4,19 +4,25 @@
 version: "3"
 services:
     app:
-        image: flask-app        # image_name
+        image: flask-app
         container_name: app-backend
         build:
             context: ..
-            dockerfile: deploy/Dockerfile.app
-        volumes:
-            - ../app/www:/app/www
-        
+            dockerfile: deploy/Dockerfile.app     
     nginx:
         image: nginx 
         container_name: app-frontend
+        build:
+            context: ..
+            dockerfile: deploy/Dockerfile.prod 
         ports:
             - 80:80
+    db:
+        image: mysql:8.0.21
+        container_name: mysql-db
+        environment:
+            MYSQL_ROOT_PASSWORD: root
         volumes:
-            - ./nginx.conf:/etc/nginx/nginx.conf
-            - ../app/www:/var/www
+            - ../app/backend/db/entry:/docker-entrypoint-initdb.d/:ro
+            - ../app/backend/db/data:/var/lib/mysql
+    
