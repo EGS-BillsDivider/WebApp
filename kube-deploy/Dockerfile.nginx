@@ -1,5 +1,7 @@
-# build environment
+#To build: sudo docker build -t registry.deti:5000/nginx-proxy-bdwebapp-pabreu:v1 -f kube-deploy/Dockerfile.nginx .
+#To add to registry: sudo docker push registry.deti:5000/nginx-proxy-bdwebapp-pabreu:v1
 
+# build environment
 FROM node:alpine as build
 
 WORKDIR /app

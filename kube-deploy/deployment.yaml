@@ -45,6 +45,7 @@ spec:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
+
 # Create app deployment
 ---
 apiVersion: apps/v1
@@ -67,6 +68,7 @@ spec:
         image: registry.deti:5000/app-pabreu:v1
         ports:
           - containerPort: 8000
+
 # Create nginx deployment
 ---
 apiVersion: apps/v1
@@ -92,6 +94,7 @@ spec:
             - containerPort: 80
           resources: {}
       restartPolicy: Always
+
 # Creat database service
 ---
 apiVersion: v1
@@ -107,6 +110,7 @@ spec:
   selector:
     app: bdwebapp-db
   type: NodePort
+
 # Create app service
 ---
 apiVersion: v1
@@ -120,6 +124,7 @@ spec:
     targetPort: 8000
   selector:
     app: app
+
 # Create nginx service
 ---
 apiVersion: v1
@@ -134,7 +139,7 @@ spec:
   selector:
     app: nginx
 # Configure Traefik ingress
---
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
