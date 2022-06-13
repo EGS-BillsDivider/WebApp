@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type: application/json" -d '{"titulo": "xpto", "descricao": "xpto2"}' http://localhost:5000/bill
