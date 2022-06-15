@@ -152,7 +152,7 @@ metadata:
     traefik.ingress.kubernetes.io/redirect-permanent: "true"
 spec:
   rules:
-  - host: billsdivider
+  - host: billsdivider.egs
     http:
       paths:
       - path: /
