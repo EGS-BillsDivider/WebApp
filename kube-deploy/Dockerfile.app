@@ -1,5 +1,5 @@
-#To build: sudo docker build -t registry.deti:5000/app-pabreu:v1 -f kube-deploy/Dockerfile.app .
-#To add to registry: sudo docker push registry.deti:5000/app-pabreu:v1
+#To build: sudo docker build -t registry.deti:5000/app-pabreu:v4 -f kube-deploy/Dockerfile.app .
+#To add to registry: sudo docker push registry.deti:5000/app-pabreu:v4
 
 FROM python:3.8-alpine
 

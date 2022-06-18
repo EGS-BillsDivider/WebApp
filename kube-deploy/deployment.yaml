@@ -3,8 +3,8 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
-  namespace: pabreu
+  name: webapp-pvc-claim
+  namespace: egs1
 spec:
   accessModes:
     - ReadWriteOnce
@@ -17,21 +17,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bdwebapp-mysql
-  namespace: pabreu
+  name: mysql-pabreu
+  namespace: egs1
 spec:
   selector:
     matchLabels:
-      app: bdwebapp-db
+      app: mysql-pabreu
   template:
     metadata:
       labels:
-        app: bdwebapp-db
+        app: mysql-pabreu
     spec:
       containers:
       - name: mysql
-        ## esta imagem em específico tem de ser enviada para o registry
-        image: registry.deti:5000/billsdivider/bdwebapp-db:11062022
+        image: registry.deti:5000/mysql-pabreu:14062022
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: root
@@ -44,28 +43,28 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
-            claimName: mysql-pv-claim
+            claimName: webapp-pvc-claim
 
 # Create app deployment
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
-  namespace: pabreu
+  name: app-pabreu
+  namespace: egs1
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: app
+      app: app-pabreu
   template:
     metadata:
       labels:
-        app: app
+        app: app-pabreu
     spec:
       containers:
       - name: app
-        image: registry.deti:5000/app-pabreu:v1
+        image: registry.deti:5000/app-pabreu:v4
         ports:
           - containerPort: 8000
 
@@ -74,21 +73,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
-  namespace: pabreu
+  name: nginx-pabreu
+  namespace: egs1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: nginx-pabreu
   strategy: {}
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginx-pabreu
     spec:
       containers:
-        - image: registry.deti:5000/nginx-proxy-bdwebapp-pabreu:v1
+        - image: registry.deti:5000/nginx-pabreu:v4
           name: nginx
           ports:
             - containerPort: 80
@@ -100,15 +99,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bdwebapp-mysql
-  namespace: pabreu
+  name: mysql-service-pabreu
+  namespace: egs1
 spec:
   ports:
   - port: 3306
     protocol: TCP
-    name: bdwebapp-mysql
+    name: mysql-service-pabreu
   selector:
-    app: bdwebapp-db
+    app: mysql-pabreu
   type: NodePort
 
 # Create app service
@@ -116,35 +115,35 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
-  namespace: pabreu
+  name: app-service-pabreu
+  namespace: egs1
 spec:
   ports:
   - port: 8000
     targetPort: 8000
   selector:
-    app: app
+    app: app-pabreu
 
 # Create nginx service
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
-  namespace: pabreu
+  name: nginx-service-pabreu
+  namespace: egs1
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: nginx
+    app: nginx-pabreu
 # Configure Traefik ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: webapp-k3s
-  namespace: pabreu
+  namespace: egs1
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/frontend-entry-points: http,https
@@ -159,6 +158,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx
+            name: nginx-service-pabreu
             port: 
               number: 80
