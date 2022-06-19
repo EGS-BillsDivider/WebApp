@@ -1,5 +1,5 @@
-#To build: sudo docker build -t registry.deti:5000/mysql-pabreu:14062022 -f kube-deploy/Dockerfile.db .
-#To add to registry: sudo docker push registry.deti:5000/mysql-pabreu:14062022
+#To build: sudo docker build -t registry.deti:5000/mysql-pabreu:17062022 -f kube-deploy/Dockerfile.db .
+#To add to registry: sudo docker push registry.deti:5000/mysql-pabreu:17062022
 
 FROM mysql:8.0.21
 

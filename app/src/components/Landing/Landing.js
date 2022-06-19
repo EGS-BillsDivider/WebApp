@@ -12,14 +12,18 @@ export function Landing(props) {
     }
     
     function handleLogin(){
-        window.location.replace('http://localhost:8000/login');
+        window.location.replace('http://auth.billsdivider.egs/login');
+    }
+
+    function handleSignIn(){
+        window.location.replace('http://auth.billsdivider.egs/register')
     }
 
     return (
         <>
             <Container className="d-flex vh-100 justify-content-center align-items-center">
-                <Button variant="outline-primary" onClick={handleLogin}>Log In</Button>{' '}
-                <Button variant="outline-primary">Sign In</Button>{' '}
+                <Button variant="outline-danger" onClick={handleLogin}>Log In</Button>{' '}
+                <Button variant="outline-primary" onClick={handleSignIn}>Sign In</Button>{' '}
             </Container>
         </>
       );

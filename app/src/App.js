@@ -8,6 +8,7 @@ import {Landing} from "./components/Landing/Landing"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import HandleRegister from "./components/HandleRegister";
 
 function App() {
     const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -21,6 +22,7 @@ function App() {
             <Routes>
                 <Route path="/" element={ <Landing isLoggedIn={isLoggedIn} onChange={handleLoginChange}/>} />
                 <Route exact path="/login" element={<HandleLogin onChange={handleLoginChange} />} />
+                <Route exact path="/register" element={<HandleRegister />} />
                 <Route path="/dashboard" element={<Protected isLoggedIn={isLoggedIn}> <Dashboard onChange={handleLoginChange}/> </Protected>} />
             </Routes>
         </>

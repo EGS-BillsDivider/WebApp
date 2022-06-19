@@ -1,10 +1,19 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 import { Modal, Button, Form} from 'react-bootstrap';
 
 export function MyModal(props) {
 
     const [inputs, setInputs] = useState({});
+
+    const [username, setUsername] = useState([]);
+
+    useEffect(() => {
+      const name1 = JSON.parse(localStorage.getItem('name'));
+      if (name1) {
+        setUsername(name1);
+      }
+    }, []);
   
     const handleChange = (event) => {
       const name = event.target.name;
@@ -18,7 +27,7 @@ export function MyModal(props) {
       fetch('/api/bill', {
         method: 'POST',
         headers:  {'Content-Type': 'application/json'},
-        body: JSON.stringify(inputs)
+        body: JSON.stringify([inputs], [{"publishBy": {username}}])
       })
       .then(response => response.json())
       .then(inputs => {

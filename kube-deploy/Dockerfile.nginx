@@ -1,5 +1,5 @@
-#To build: sudo docker build -t registry.deti:5000/nginx-pabreu:v4 -f kube-deploy/Dockerfile.nginx .
-#To add to registry: sudo docker push registry.deti:5000/nginx-pabreu:v4
+#To build: sudo docker build -t registry.deti:5000/nginx-pabreu:v13 -f kube-deploy/Dockerfile.nginx .
+#To add to registry: sudo docker push registry.deti:5000/nginx-pabreu:v13
 
 # build environment
 FROM node:alpine as build
@@ -14,7 +14,7 @@ COPY /app/package-lock.json ./
 
 RUN npm install
 
-COPY /app ./
+COPY /app/ ./
 
 RUN npm run build
 

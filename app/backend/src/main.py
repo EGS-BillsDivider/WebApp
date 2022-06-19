@@ -2,18 +2,45 @@ from flask import Flask, request
 import json
 import mysql.connector
 from flask_cors import CORS
+from flask import jsonify
 
 app = Flask(__name__)
 CORS(app)
 
+current_user_id = 0
+
 #Set mysql access credentials 
 config = {
-    'host': 'db',
+    'host': 'mysql-pabreu',
     'user': 'root',
     'password': 'root',
     'port': '3306',
     'database': 'WEBAPP'
 }
+
+@app.route("/register", methods= ['POST'])
+def savename():
+    if request.method == 'POST':
+        data = (request.json)
+
+        if data.get('id') is not None:
+            id = data['id']
+        if data.get('name') is not None:
+            name = data['name']
+
+        cnx = mysql.connector.connect(**config)
+        cursor = cnx.cursor()
+        
+        cursor.execute(f"""
+        INSERT INTO USERS (idauth, username) VALUES ('{id}', '{name}');
+        """)
+
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        return "OK", 200
+    
 
 @app.route("/bill", methods = ['POST'])
 def addBill():
@@ -26,15 +53,16 @@ def addBill():
             descricao = data['descricao']
         if data.get('amount') is not None:
             amount = float(data['amount'])
+        if data.get('publishBy') is not None:
+            publishBy = data['publishBy']
 
         cnx = mysql.connector.connect(**config)
-
         cursor = cnx.cursor()
 
         # enviar contas para a API do Gameiro Aqui
 
         cursor.execute(f"""
-        INSERT INTO BILLS (title, description, amount) VALUES ('{titulo}', '{descricao}', {amount});
+        INSERT INTO BILLS (title, description, amount, publishBy) VALUES ('{titulo}', '{descricao}', {amount}, {publishBy});
         """)
 
         cnx.commit()
@@ -64,7 +92,7 @@ def getBills():
                 'titulo': row[1],
                 'descricao': row[2],
                 'publishedOn': row[4].strftime("%a, %d %b %Y"),
-                'publishedBy': 'x',
+                'publishedBy': row[5],
                 'amount': row[3]
             }
             data.append(x)

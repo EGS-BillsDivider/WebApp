@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: registry.deti:5000/mysql-pabreu:14062022
+        image: registry.deti:5000/mysql-pabreu:17062022
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: root
@@ -50,21 +50,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-pabreu
+  name: app
   namespace: egs1
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: app-pabreu
+      app: app
   template:
     metadata:
       labels:
-        app: app-pabreu
+        app: app
     spec:
       containers:
       - name: app
-        image: registry.deti:5000/app-pabreu:v4
+        image: registry.deti:5000/app-pabreu:v19
         ports:
           - containerPort: 8000
 
@@ -87,7 +87,7 @@ spec:
         app: nginx-pabreu
     spec:
       containers:
-        - image: registry.deti:5000/nginx-pabreu:v4
+        - image: registry.deti:5000/nginx-pabreu:v34
           name: nginx
           ports:
             - containerPort: 80
@@ -99,13 +99,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service-pabreu
+  name: mysql-pabreu
   namespace: egs1
 spec:
   ports:
   - port: 3306
     protocol: TCP
-    name: mysql-service-pabreu
+    name: mysql-pabreu
   selector:
     app: mysql-pabreu
   type: NodePort
@@ -115,14 +115,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service-pabreu
+  name: app
   namespace: egs1
 spec:
   ports:
   - port: 8000
     targetPort: 8000
   selector:
-    app: app-pabreu
+    app: app
 
 # Create nginx service
 ---
@@ -137,12 +137,12 @@ spec:
     targetPort: 80
   selector:
     app: nginx-pabreu
-# Configure Traefik ingress
+# Configure Traefik ingress for nginx
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: webapp-k3s
+  name: webapp-k3s-frontend
   namespace: egs1
   annotations:
     kubernetes.io/ingress.class: traefik
