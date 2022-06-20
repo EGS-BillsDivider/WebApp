@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './dashboard.css';
 
-import { Navbar, Container, Row } from 'react-bootstrap';
+import { Navbar, Container, Row, Nav } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
 import { MyModal } from '../MyModal/MyModal';
@@ -16,6 +16,15 @@ export function Dashboard(props) {
     function handleModalChange( new_showModal ) {
       setShowModal(new_showModal);
     }
+
+    const [username, setUsername] = useState([]);
+
+    useEffect(() => {
+      const name1 = localStorage.getItem('name');
+      if (name1) {
+        setUsername(name1);
+      }
+    }, []);
     
     function handleLogOut() {
         props.onChange(false);
@@ -29,6 +38,9 @@ export function Dashboard(props) {
             <Navbar.Brand href="#">Maison Aveiro</Navbar.Brand>
             
             <Navbar.Collapse className="justify-content-end">
+            <Nav className="me-auto">
+                <Nav.Link href="#">{username}</Nav.Link>
+            </Nav>
                 <Button variant="outline-primary" onClick={handleLogOut}>Log Out</Button>{' '}
             </Navbar.Collapse>
             </Container>

@@ -47,13 +47,17 @@ def addBill():
     if request.method == 'POST':
         data = (request.json)
         
-        if data.get('titulo') is not None:
+        titulo = ''
+        descricao = ''
+        amount = 0
+        publishBy = ''
+        if data[0].get('titulo') is not None:
             titulo = data['titulo']
-        if data.get('descricao') is not None:
+        if data[0].get('descricao') is not None:
             descricao = data['descricao']
-        if data.get('amount') is not None:
+        if data[0].get('amount') is not None:
             amount = float(data['amount'])
-        if data.get('publishBy') is not None:
+        if data[0].get('publishBy') is not None:
             publishBy = data['publishBy']
 
         cnx = mysql.connector.connect(**config)
@@ -62,7 +66,7 @@ def addBill():
         # enviar contas para a API do Gameiro Aqui
 
         cursor.execute(f"""
-        INSERT INTO BILLS (title, description, amount, publishBy) VALUES ('{titulo}', '{descricao}', {amount}, {publishBy});
+        INSERT INTO BILLS (title, description, amount, publishBy) VALUES ('{titulo}', '{descricao}', {amount}, '{publishBy}');
         """)
 
         cnx.commit()

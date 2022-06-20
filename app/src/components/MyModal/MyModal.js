@@ -9,7 +9,7 @@ export function MyModal(props) {
     const [username, setUsername] = useState([]);
 
     useEffect(() => {
-      const name1 = JSON.parse(localStorage.getItem('name'));
+      const name1 = localStorage.getItem('name');
       if (name1) {
         setUsername(name1);
       }
