@@ -29,7 +29,6 @@ CREATE TABLE HAVE (
     idBills     INT,
     
     PRIMARY KEY (idUsers),
-    PRIMARY KEY (idBills),
     FOREIGN KEY (idUsers) REFERENCES USERS(idauth),
     FOREIGN KEY (idBills) REFERENCES Bills(id)
 );

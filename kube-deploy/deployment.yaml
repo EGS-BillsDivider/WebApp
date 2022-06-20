@@ -64,7 +64,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: registry.deti:5000/app-pabreu:v26
+        image: registry.deti:5000/app-pabreu:v40
         ports:
           - containerPort: 8000
 
@@ -87,7 +87,7 @@ spec:
         app: nginx-pabreu
     spec:
       containers:
-        - image: registry.deti:5000/nginx-pabreu:v38
+        - image: registry.deti:5000/nginx-pabreu:v50
           name: nginx
           ports:
             - containerPort: 80

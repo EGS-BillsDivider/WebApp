@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 
 import { MyModal } from '../MyModal/MyModal';
 import { Main } from '../Main/Main';
+import { Main2 } from '../Main2/Main2'
 import { useNavigate } from "react-router-dom";
 
 export function Dashboard(props) {
@@ -47,8 +48,13 @@ export function Dashboard(props) {
         </Navbar>
         
         <Container>
+            <h3>Contas na plataforma:</h3>
             <Row >
                 <Main></Main>
+            </Row>
+            <h3>Minhas contas:</h3>
+            <Row>
+              <Main2></Main2>
             </Row>
             <Row className="d-flex justify-content-end">
                 <Button variant="primary" onClick={handleModalChange}>

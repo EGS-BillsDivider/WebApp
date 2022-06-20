@@ -1,5 +1,5 @@
-#To build: sudo docker build -t registry.deti:5000/app-pabreu:v11 -f kube-deploy/Dockerfile.app .
-#To add to registry: sudo docker push registry.deti:5000/app-pabreu:v11
+#To build: sudo docker build -t registry.deti:5000/app-pabreu:20062022 -f kube-deploy/Dockerfile.app .
+#To add to registry: sudo docker push registry.deti:5000/app-pabreu:20062022
 
 FROM python:3.8-alpine
 
@@ -9,7 +9,9 @@ LABEL version="1.0"
 
 RUN mkdir /app
 
-COPY deploy/gunicorn_starter.sh gunicorn_starter.sh
+COPY kube-deploy/gunicorn_starter.sh gunicorn_starter.sh
+
+RUN chmod +x gunicorn_starter.sh
 
 WORKDIR /app
 

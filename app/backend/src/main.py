@@ -45,25 +45,25 @@ def savename():
 @app.route("/bill", methods = ['POST'])
 def addBill():
     if request.method == 'POST':
-        data = (request.json)
+        data = request.get_json()
+
+        print(data, flush=True)
         
-        titulo = ''
-        descricao = ''
-        amount = 0
-        publishBy = ''
-        if data[0].get('titulo') is not None:
-            titulo = data['titulo']
-        if data[0].get('descricao') is not None:
-            descricao = data['descricao']
-        if data[0].get('amount') is not None:
-            amount = float(data['amount'])
-        if data[0].get('publishBy') is not None:
-            publishBy = data['publishBy']
+        titulo = data['titulo']
+        descricao = data['descricao']
+        amount = float(data['amount'])
+        publishBy = data['publishBy']
 
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
 
         # enviar contas para a API do Gameiro Aqui
+
+        print('prints:\n')
+        print(titulo)
+        print(descricao)
+        print(amount)
+        print(publishBy)
 
         cursor.execute(f"""
         INSERT INTO BILLS (title, description, amount, publishBy) VALUES ('{titulo}', '{descricao}', {amount}, '{publishBy}');
