@@ -11,11 +11,13 @@ export function MyModal(props) {
   useEffect(() => {
     const name1 = localStorage.getItem('name');
     if (name1) {
+      console.log(name1)
       setUsername(name1);
+      console.log(username);
     }
   }, []);
 
-  let aux = JSON.stringify([inputs], [{ "publishBy": { username } }]);
+  //let aux = JSON.stringify([inputs], [{ "publishedBy": { username } }]);
 
   function handleSubmit() {
 
@@ -26,8 +28,9 @@ export function MyModal(props) {
     var payload = {
       "titulo": titulo,
       "descricao": descricao,
-      "amount": amount,
-      "publishBy": {username}
+      "amount": [amount, username]
+
+      //"publishBy": {username}
     }
 
     console.log(payload);
@@ -36,14 +39,12 @@ export function MyModal(props) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    })
       .then(response => response.json())
-      .then(inputs => {
-        console.log('Success:', inputs);
+    })
+      .then(response => {
+        response.json();
+        console.log("SUCCESS");
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
 
     handleModalClose();
   }
@@ -52,6 +53,15 @@ export function MyModal(props) {
     props.onChange(false)
   }
 
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+  }
+
+
+  
   return (
     <>
       <Modal show={props.showModal} centered size="lg">
@@ -62,28 +72,28 @@ export function MyModal(props) {
           <Modal.Body>
             <Form.Group className="mb-3">
               <Form.Label>Título</Form.Label>
-              <Form.Control type="text" placeholder="ex: Luz Nov. Tiago" name="titulo" value={inputs.titulo || ""}/>
+              <Form.Control type="text" placeholder="ex: Luz Nov. Tiago" name="titulo" value={inputs.titulo || ""} onChange={handleChange}/>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Descrição</Form.Label>
-              <Form.Control as="textarea" rows={3} name="descricao" value={inputs.descricao || ""} />
+              <Form.Control as="textarea" rows={3} name="descricao" value={inputs.descricao || ""} onChange={handleChange}/>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Total</Form.Label>
-              <Form.Control type="number" name="amount" value={inputs.amount || ""}/>
+              <Form.Control type="number" name="amount" value={inputs.amount || ""} onChange={handleChange}/>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <div class="d-flex row">
                 <div class="col">
                   <Form.Label>Fatura</Form.Label>
-                  <Form.Control type="file" size="sm" name="fatura" value={inputs.fatura || ""}/>
+                  <Form.Control type="file" size="sm" name="fatura" value={inputs.fatura || ""} onChange={handleChange}/>
                 </div>
                 <div class="col">
                   <Form.Label>Recibo</Form.Label>
-                  <Form.Control type="file" size="sm" name="recibo" value={inputs.recibo || ""}/>
+                  <Form.Control type="file" size="sm" name="recibo" value={inputs.recibo || ""} onChange={handleChange}/>
                 </div>
               </div>
             </Form.Group>

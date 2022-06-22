@@ -3,20 +3,19 @@ import json
 import mysql.connector
 from flask_cors import CORS
 from flask import jsonify
+import ast
 
 app = Flask(__name__)
 CORS(app)
 
 current_user_id = 0
 
+
 #Set mysql access credentials 
-config = {
-    'host': 'mysql-pabreu',
-    'user': 'root',
-    'password': 'root',
-    'port': '3306',
-    'database': 'WEBAPP'
-}
+file = open("/tmp/secrets/credentials", "r")
+content = file.read()
+config = ast.literal_eval(content)
+file.close()
 
 @app.route("/register", methods= ['POST'])
 def savename():
@@ -52,7 +51,7 @@ def addBill():
         titulo = data['titulo']
         descricao = data['descricao']
         amount = float(data['amount'])
-        publishBy = data['publishBy']
+        publishBy = data['name']
 
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()

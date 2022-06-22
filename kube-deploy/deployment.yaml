@@ -1,3 +1,28 @@
+# Create nginx service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service-pabreu
+  namespace: egs1
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: nginx-service-pabreu
+
+# Database Secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-pabreu-secrets
+  namespace: egs1
+type: Opaque
+data:
+  db_password: cm9vdA==
+
 # Create persistence claim
 ---
 apiVersion: v1
@@ -29,14 +54,17 @@ spec:
         app: mysql-pabreu
     spec:
       containers:
-      - name: mysql
-        image: registry.deti:5000/mysql-pabreu:17062022
+      - name: mysql-pabreu
+        image: registry.deti:5000/mysql-pabreu:19062022
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: root
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pabreu-secrets
+              key: db_password
         ports:
         - containerPort: 3306
-          name: mysql
+          name: mysql-pabreu
         volumeMounts:
           - name: mysql-persistent-storage
             mountPath: /var/lib/mysql
@@ -53,7 +81,7 @@ metadata:
   name: app
   namespace: egs1
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: app
@@ -64,9 +92,19 @@ spec:
     spec:
       containers:
       - name: app
-        image: registry.deti:5000/app-pabreu:v40
+        image: registry.deti:5000/app-pabreu:v49
         ports:
-          - containerPort: 8000
+        - containerPort: 8000
+          name: app
+        volumeMounts:
+        - name: app-pabreu-secret
+          mountPath: "/tmp/secrets"
+          readOnly: true
+      volumes:
+      - name: app-pabreu-secret
+        secret:
+          secretName: app-pabreu-secret
+          
 
 # Create nginx deployment
 ---
@@ -76,7 +114,7 @@ metadata:
   name: nginx-pabreu
   namespace: egs1
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: nginx-pabreu
@@ -87,8 +125,8 @@ spec:
         app: nginx-pabreu
     spec:
       containers:
-        - image: registry.deti:5000/nginx-pabreu:v50
-          name: nginx
+        - image: registry.deti:5000/nginx-pabreu:v60
+          name: nginx-pabreu
           ports:
             - containerPort: 80
           resources: {}
@@ -124,25 +162,13 @@ spec:
   selector:
     app: app
 
-# Create nginx service
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-service-pabreu
-  namespace: egs1
-spec:
-  ports:
-  - port: 80
-    targetPort: 80
-  selector:
-    app: nginx-pabreu
+
 # Configure Traefik ingress for nginx
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: webapp-k3s-frontend
+  name: billsdivider-webapp
   namespace: egs1
   annotations:
     kubernetes.io/ingress.class: traefik
